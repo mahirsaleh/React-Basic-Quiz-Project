@@ -1,8 +1,11 @@
-import { useReducer } from "react";
+import { useContext, useLayoutEffect, useReducer } from "react";
+import { Link } from "react-router-dom";
 
-import { FaLock, FaUserAlt } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock, FaUserAlt } from "react-icons/fa";
 import { FiAtSign } from "react-icons/fi";
 import { TbLockCheck } from "react-icons/tb";
+
+import ThemeContext from "../ThemeContext.jsx";
 
 import {
   SignUpDiv,
@@ -15,6 +18,10 @@ const initialState = {
   passwordInput: "",
   confirmPasswordInput: "",
   termsCheckbox: false,
+  isPasswordButtonShow: false,
+  isPasswordEyeClosed: true,
+  isConfirmPasswordButtonShow: false,
+  isConfirmPasswordEyeClosed: true,
 };
 
 const reducer = function (prevState, { type, data }) {
@@ -29,15 +36,35 @@ const reducer = function (prevState, { type, data }) {
       return { ...prevState, confirmPasswordInput: data };
     case "termsCheckbox":
       return { ...prevState, termsCheckbox: data };
+    case "isPasswordButtonShow":
+      return { ...prevState, isPasswordButtonShow: data };
+    case "isPasswordEyeClosed":
+      return { ...prevState, isPasswordEyeClosed: data };
+    case "isConfirmPasswordButtonShow":
+      return { ...prevState, isConfirmPasswordButtonShow: data };
+    case "isConfirmPasswordEyeClosed":
+      return { ...prevState, isConfirmPasswordEyeClosed: data };
   }
 };
 
 export default function SignUp() {
   const [reducerState, dispatch] = useReducer(reducer, initialState);
 
+  const { theme } = useContext(ThemeContext);
+
+  // Page Title useLayoutEffect ;
+  useLayoutEffect(() => {
+    document.title = "Quiz Project | SignUp";
+  }, []);
+
   return (
     <SignUpDiv>
-      <SignUpForm action="" id="sign-up-form" name="sign-up-form">
+      <SignUpForm
+        $theme={theme}
+        action=""
+        id="sign-up-form"
+        name="sign-up-form"
+      >
         <div className="heading">Create An Account</div>
 
         <label
@@ -87,11 +114,25 @@ export default function SignUp() {
         <label
           className="input-section__password-lable"
           htmlFor="password-label__password-input"
+          onFocus={() => {
+            dispatch({
+              type: "isPasswordButtonShow",
+              data: true,
+            });
+          }}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              dispatch({
+                type: "isPasswordButtonShow",
+                data: !reducerState.isPasswordButtonShow,
+              });
+            }
+          }}
         >
           <input
             required
             autoComplete="off"
-            type="password"
+            type={reducerState.isPasswordEyeClosed ? "password" : "text"}
             name="password-input"
             id="password-label__password-input"
             placeholder="Enter password"
@@ -103,17 +144,46 @@ export default function SignUp() {
               })
             }
           />
-          <FaLock />
+          {reducerState.isPasswordButtonShow ? (
+            <button
+              type="button"
+              className="password-label__eyeButton"
+              onClick={() => {
+                dispatch({
+                  type: "isPasswordEyeClosed",
+                  data: !reducerState.isPasswordEyeClosed,
+                });
+              }}
+            >
+              {reducerState.isPasswordEyeClosed ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          ) : (
+            <FaLock />
+          )}
         </label>
 
         <label
           className="input-section__confirm-password-lable"
           htmlFor="confirm-password-label__confirm-password-input"
+          onFocus={() => {
+            dispatch({
+              type: "isConfirmPasswordButtonShow",
+              data: true,
+            });
+          }}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              dispatch({
+                type: "isConfirmPasswordButtonShow",
+                data: !reducerState.isConfirmPasswordButtonShow,
+              });
+            }
+          }}
         >
           <input
             required
             autoComplete="off"
-            type="password"
+            type={reducerState.isConfirmPasswordEyeClosed ? "password" : "text"}
             name="confirm-password-input"
             id="confirm-password-label__confirm-password-input"
             placeholder="Confirm password"
@@ -125,7 +195,26 @@ export default function SignUp() {
               })
             }
           />
-          <TbLockCheck />
+          {reducerState.isConfirmPasswordButtonShow ? (
+            <button
+              type="button"
+              className="confirm-password-label__eyeButton"
+              onClick={() => {
+                dispatch({
+                  type: "isConfirmPasswordEyeClosed",
+                  data: !reducerState.isConfirmPasswordEyeClosed,
+                });
+              }}
+            >
+              {reducerState.isConfirmPasswordEyeClosed ? (
+                <FaEyeSlash />
+              ) : (
+                <FaEye />
+              )}
+            </button>
+          ) : (
+            <TbLockCheck />
+          )}
         </label>
 
         <label className="input-section__terms-checkbox-lable">
@@ -157,7 +246,7 @@ export default function SignUp() {
           Submit
         </button>
         <p className="sign-up-div__lower-text">
-          Already have an account ? <a href="">Log In </a> instead
+          Already have an account ? <Link to="/LogIn">Log In </Link> instead
         </p>
       </SignUpForm>
     </SignUpDiv>

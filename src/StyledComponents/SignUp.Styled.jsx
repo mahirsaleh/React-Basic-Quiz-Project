@@ -7,33 +7,46 @@ export const SignUpDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+
   background-image: url(${backgroundImage});
   background-size: cover;
   background-position: center 65%;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  
+
   height: 100svh;
-  margin-top: -100px;
   width: 100%;
+  margin-top: -100px;
+
+  /* @media screen and (max-height: 800px) {
+    height: calc(100svh + 50px);
+    
+    & form {
+      margin-top: 100px ;
+    }
+  } */
 
   @media screen and (max-width: 700px) {
     margin-top: 0;
+    height: calc(100svh - var(--navbar-resize-700px-width));
   }
 
-  `;
+  @media screen and (max-width: 399px) {
+    height: calc(100svh - var(--navbar-resize-399px-width));
+  }
+`;
 
 export const SignUpForm = styled.form`
   // adjusting center for Navbar
-  margin-top: var(---navbar-resize-default-width);
+  margin-top: 100px ;
+
   @media screen and (max-width: 700px) {
-    height: var(--calc-svh-height-for-navbar-resize-700px-width);
+    margin-top: var(---navbar-resize-700px-width);
   }
-  
+
   @media screen and (max-width: 399px) {
-    height: var(--calc-svh-height-for-navbar-resize-399px-width);
-  }
+    margin-top: var(---navbar-resize-399px-width);
+  } 
 
   display: flex;
   flex-direction: column;
@@ -43,7 +56,7 @@ export const SignUpForm = styled.form`
 
   background-color: var(--sign-up-form-blur-color);
   backdrop-filter: blur(5px);
-  padding: 50px 60px;
+  padding: 30px 60px;
   width: 50%;
   border-radius: 20px;
 
@@ -96,10 +109,38 @@ export const SignUpForm = styled.form`
     }
   }
 
+  & > label.input-section__password-lable > button.password-label__eyeButton,
+  &
+    > label.input-section__confirm-password-lable
+    > button.confirm-password-label__eyeButton {
+    background: transparent;
+    box-shadow: ${({ $theme }) =>
+      $theme === "white"
+        ? "inset 0.3px 0px 5px black"
+        : "inset 0.3px 0px 5px lightgrey"};
+    border: none;
+    cursor: pointer;
+
+    position: absolute;
+    inset: 0% 0% 0% 90%;
+    display: grid;
+    place-items: center;
+
+    & > svg {
+      font-size: 22px;
+      color: var(--font-color);
+
+      @media screen and (max-width: 420px) {
+        font-size: 18px;
+      }
+    }
+  }
+
   & > label.input-section__terms-checkbox-lable {
     border: none;
     text-align-last: center;
     user-select: none;
+    cursor: pointer;
 
     & > input {
       width: 20px;
@@ -131,6 +172,12 @@ export const SignUpForm = styled.form`
 
     & > a {
       text-decoration: none;
+      transition: color 0.2s linear;
+      color: var(--a-tag-font-color);
+
+      &:hover {
+        color: var(--a-tag-font-color-hover);
+      }
     }
   }
 
@@ -184,5 +231,9 @@ export const SignUpForm = styled.form`
     & .terms-checkbox-label__text {
       font-size: 14px;
     }
+  }
+
+  @media screen and (max-height: 739px) {
+    padding: 20px 60px ;
   }
 `;

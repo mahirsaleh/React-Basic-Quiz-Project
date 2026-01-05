@@ -19,27 +19,22 @@ const LogInFormContainer = styled.div`
 
   @media screen and (max-width: 700px) {
     margin-top: 0px;
-    & > form {
-      margin-top: var(---navbar-resize-700px-width);
-    }
+    height: calc(100svh - var(--navbar-resize-700px-width));
   }
   @media screen and (max-width: 399px) {
-    /* margin-top: -(var(--navbar-resize-399px-width)); */
-    & > form {
-      margin-top: var(---navbar-resize-399px-width);
-    }
+    height: calc(100svh - var(--navbar-resize-399px-width));
   }
 
   & > form {
     // adjusting center for Navbar
-    margin-top: var(---navbar-resize-default-width);
+    margin-top: var(--navbar-resize-default-width); 
 
-    /* @media screen and (max-width: 700px) {
+    @media screen and (max-width: 700px) {
       margin-top: var(---navbar-resize-700px-width);
     }
     @media screen and (max-width: 399px) {
       margin-top: var(---navbar-resize-399px-width);
-    } */
+    }
 
     display: flex;
     flex-direction: column;
@@ -67,7 +62,7 @@ const LogInFormContainer = styled.div`
       display: flex;
       align-items: center;
 
-      border: 2px solid grey;
+      border: 2px solid gray;
       padding: 5px;
       width: 100%;
       position: relative;
@@ -101,11 +96,30 @@ const LogInFormContainer = styled.div`
       stroke-width: 2.5px;
     }
 
+    & > label.input-section__password-lable > button.password-label__eyeButton {
+      background: transparent;
+      box-shadow: inset 0.3px 0px 5px black;
+      border: none;
+      cursor: pointer;
+
+      position: absolute;
+      inset: 0% 0% 0% 90%;
+      display: grid;
+      place-items: center;
+
+      & > svg {
+        font-size: 22px;
+
+        @media screen and (max-width: 420px) {
+          font-size: 18px;
+        }
+      }
+    }
+
     & > button {
       font-size: 22px;
       font-weight: bold;
       padding: 6px 0px;
-      margin-bottom: 15px;
       cursor: pointer;
 
       background-color: rgba(255, 255, 255, 0.4);
@@ -115,6 +129,31 @@ const LogInFormContainer = styled.div`
 
       &:hover {
         background-color: rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    & > .login__bottom-text {
+      font-size: 23px;
+      margin-bottom: 15px;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+
+      & > p {
+        color: var(--font-color);
+      }
+
+      & > a {
+        color: var(--a-tag-font-color);
+        text-decoration: none;
+        transition: color 0.2s linear;
+
+        &:hover {
+          color: var(--a-tag-font-color-hover);
+        }
       }
     }
 
@@ -139,6 +178,10 @@ const LogInFormContainer = styled.div`
         font-size: 20px;
         padding: 5px;
       }
+
+      & > .login__bottom-text {
+        font-size: 20px;
+      }
     }
 
     @media screen and (max-width: 419px) {
@@ -158,6 +201,11 @@ const LogInFormContainer = styled.div`
       }
 
       & > button {
+        font-size: 18px;
+      }
+
+      & > .login__bottom-text {
+        gap: 10px;
         font-size: 18px;
       }
     }

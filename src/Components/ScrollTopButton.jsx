@@ -1,26 +1,9 @@
-import { useEffect, useEffectEvent, useState } from "react";
-
 import { GoArrowUp } from "react-icons/go";
+
 import "../Styles/scrollTopButton.css";
+import FloatingButton from "./FloatingButton.jsx";
 
 export default function ScrollTopButton() {
-
-  const [isShow, setIsShow] = useState(false);
-
-  const showButton = useEffectEvent(function () {
-    if (window.scrollY > 100) {
-      setIsShow(true);
-    } else {
-      setIsShow(false);
-    }
-  });
-
-  useEffect(() => {
-    window.addEventListener("scroll", showButton, { passive: true });
-
-    return () => window.removeEventListener("scroll", showButton);
-  }, []);
-
   const scrollTop = function () {
     scrollTo({
       top: 0,
@@ -40,13 +23,13 @@ export default function ScrollTopButton() {
   };
 
   return (
-    <button
-      disabled={!isShow}
-      className={`${isShow ? "showing" : ""} scroll-top-button`}
-      type="button"
+    <FloatingButton
+      className={`scroll-top-button`}
       onClick={scrollTop}
+      id='scroll-top-button'
+      name='scroll-top-button'
     >
       <GoArrowUp />
-    </button>
+    </FloatingButton>
   );
 }

@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { IoIosMoon } from "react-icons/io";
 import { MdSunny } from "react-icons/md";
 
-import { NavThemeDiv } from "../StyledComponents/Nav.styled.jsx";
-import ThemeContext from "./ThemeContext.jsx";
+import { NavThemeDiv } from "../../StyledComponents/Nav.styled.jsx";
+import ThemeContext from "../ThemeContext.jsx";
 
 export default function NavThemeButton() {
   const { theme, setTheme } = useContext(ThemeContext);

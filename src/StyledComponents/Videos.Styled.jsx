@@ -69,22 +69,28 @@ export const VideoContainer = Styled.div`
   width: 100% ;
   display: grid ;
   grid-template-columns: repeat(4, 1fr) ;
-  gap: 30px 20px ;
+  gap: 50px 20px ;
   padding: 15px ;
   padding-top: 30px ;
   margin-top: 10px ;
 
+  & > a {
+    text-decoration: none ;
+    color: var(--font-color) ;
+  }
+
   @media screen and (max-width: 1300px) {
     grid-template-columns: repeat(3, 1fr) ;
+    row-gap: 40px ;
   }
   @media screen and (max-width: 850px) {
     grid-template-columns: repeat(2, 1fr) ;
     padding: 10px ;
     padding-top: 20px ;
-    gap: 20px ;
+    row-gap: 30px ;
   }
   @media screen and (max-width: 580px) {
     grid-template-columns: 1fr ;
-    gap: 15px ;
+    gap: 20px ;
   }
 `;

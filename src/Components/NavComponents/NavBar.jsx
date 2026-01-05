@@ -1,8 +1,8 @@
-// import { NavLink } from 'react-router-dom' ;
+import { Link } from 'react-router-dom' ;
 
 import { useEffect, useRef, useState } from "react";
-import logo from "../assets/Icons/logo.png";
-import { Nav } from "../StyledComponents/Nav.styled.jsx";
+import { Nav } from "../../StyledComponents/Nav.styled.jsx";
+import logo from "../../assets/Icons/logo.png";
 import NavAccount from "./NavAccount.jsx";
 import NavThemeButton from "./NavThemeButton";
 
@@ -11,24 +11,22 @@ export default function NavBar() {
   const lastScrollY = useRef(window.scrollY);
 
   useEffect(() => {
+    const lastScrollYDownBeforeHide = 50;
+    const lastScrollYUpBeforeShow = 10;
 
-    const lastScrollYDownBeforeHide = 50 ;
-    const lastScrollYUpBeforeShow = 10 ;
-
-    
     const scrollFunction = () => {
       const currentScrollY = window.scrollY;
 
-      console.log((currentScrollY - lastScrollY.current) < lastScrollYUpBeforeShow)
-    
+      
       if (currentScrollY <= lastScrollYDownBeforeHide) {
-        setIsVisible(true) ;
-      }
-      else if (currentScrollY > lastScrollY.current) {
-        setIsVisible(false) ;
-      } 
-      else if ((currentScrollY - lastScrollY.current) < -lastScrollYUpBeforeShow) {
-        setIsVisible(true)
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        setIsVisible(false);
+      } else if (
+        currentScrollY - lastScrollY.current <
+        -lastScrollYUpBeforeShow
+      ) {
+        setIsVisible(true);
       }
       // else {
       //   setIsVisible(true)
@@ -36,7 +34,7 @@ export default function NavBar() {
 
       lastScrollY.current = currentScrollY;
     };
-    window.addEventListener("scroll", scrollFunction);
+    window.addEventListener("scroll", scrollFunction, { passive: true });
 
     return () => window.removeEventListener("scroll", scrollFunction);
   }, []);
@@ -45,12 +43,18 @@ export default function NavBar() {
     <Nav $isVisible={isVisible ? "show" : "hide"}>
       {/* logo */}
       <div className="Nav__logo-div">
-        <a className="logo-div__logo" href="">
+        <Link 
+          className="logo-div__logo" 
+          to="/"
+        >
           <img src={logo} alt="Mahir" />
-        </a>
-        <a className="logo-div__name" href="">
+        </Link>
+        <Link
+          className="logo-div__name" 
+          to="/"
+        >
           Mahir Saleh
-        </a>
+        </Link>
       </div>
 
       <div className="Nav__right-section">

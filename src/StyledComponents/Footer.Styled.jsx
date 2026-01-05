@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 const FooterDiv = styled.div`
   position: relative;
-  height: 250px;
+  margin-top: 50px ;
+  padding: 100px 0px ;
 
   &::before {
     content: '';
@@ -71,7 +72,18 @@ const FooterDiv = styled.div`
     }
   }
 
+  @media screen and (max-width: 849px) {
+    margin-top: 40px;
+    padding: 80px ;
+  }
+  @media screen and (max-width: 580px) {
+    margin-top: 30px;
+    padding: 60px 0px;
+  }
+
   @media screen and (max-width: 499px) {
+    margin-top: 20px ;
+
     & > .FooterDiv__info-div {
       & .info-div__links {
         gap: 20px;

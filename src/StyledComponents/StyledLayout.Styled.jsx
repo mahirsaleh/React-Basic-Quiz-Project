@@ -15,7 +15,7 @@ export const StyledLayout = Styled.div`
 
 
   & > main {
-    margin-top: var(---navbar-resize-default-width) ;
+    margin-top: var(--navbar-resize-default-width) ;
 
     @media screen and (max-width: 700px) {
       margin-top: var(--navbar-resize-700px-width) ;
