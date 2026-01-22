@@ -1,11 +1,11 @@
-import { useContext, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { PageNotFoundDiv } from "../../StyledComponents/PageNotFound.Styled.jsx";
-import ThemeContext from "../ThemeContext.jsx";
+import { useTheme } from "../Context/MyContexts.jsx";
 
 export default function PageNotFound() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   useLayoutEffect(() => {

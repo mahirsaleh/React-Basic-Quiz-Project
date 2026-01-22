@@ -1,10 +1,12 @@
-import { useLayoutEffect, useReducer } from "react";
-import { Link } from "react-router-dom";
+import { useActionState, useLayoutEffect, useReducer } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { FaEye, FaEyeSlash, FaLock, FaUserAlt } from "react-icons/fa";
 import { FiAtSign } from "react-icons/fi";
 
 import LogInFormContainer from "../../StyledComponents/LogIn.Styled.jsx";
+import { useAuth } from "../Context/MyContexts.jsx";
+import NotificationAlert from "./NotificationAlert.jsx";
 
 const initialState = {
   nameInput: "",
@@ -17,11 +19,11 @@ const initialState = {
 const reducer = function (prevState, { type, data }) {
   switch (type) {
     case "nameInput":
-      return { ...prevState, nameInput: data };
+      return { ...prevState, nameInput: data.replace(/\s+/g, " ") };
     case "emailInput":
-      return { ...prevState, emailInput: data };
+      return { ...prevState, emailInput: data.replace(/\s+/g, "") };
     case "passwordInput":
-      return { ...prevState, passwordInput: data };
+      return { ...prevState, passwordInput: data.replace(/\s+/g, " ") };
     case "isPasswordButtonShow":
       return { ...prevState, isPasswordButtonShow: data };
     case "isPasswordEyeClosed":
@@ -32,6 +34,33 @@ const reducer = function (prevState, { type, data }) {
 export default function LogIn() {
   const [inputsState, dispatcher] = useReducer(reducer, initialState);
 
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const actionFunction = async function (prevFormState, formData) {
+    const userData = {
+      userName: formData.get("name-input").trim(),
+      userEmail: formData.get("email-input"),
+      userPassword: formData.get("password-input").trim(),
+    };
+
+    try {
+      const logInData = await login(userData.userEmail, userData.userPassword);
+
+      if (logInData.user.displayName !== userData.userName) {
+        return "name does not match";
+      }
+      navigate("/");
+      return "";
+    } catch (error) {
+      return error.code
+        .replace("auth/", "")
+        .replace("-credential", " email or password");
+    }
+  };
+
+  const [message, formAction, isPending] = useActionState(actionFunction, null);
+
   // Page Title useLayoutEffect ;
   useLayoutEffect(() => {
     document.title = "Quiz Project | LogIn";
@@ -39,7 +68,11 @@ export default function LogIn() {
 
   return (
     <LogInFormContainer>
-      <form action="" id="LogInForm" name="LogInForm">
+      <NotificationAlert isPending={isPending} parentPageName="Log In">
+        {message}
+      </NotificationAlert>
+
+      <form id="LogInForm" name="LogInForm" action={formAction}>
         <h1 className="login__header">Log In</h1>
 
         <label
@@ -47,6 +80,7 @@ export default function LogIn() {
           htmlFor="name-label__name-input"
         >
           <input
+            disabled={isPending}
             required
             autoComplete="off"
             type="text"
@@ -69,6 +103,7 @@ export default function LogIn() {
           htmlFor="email-label__email-input"
         >
           <input
+            disabled={isPending}
             required
             autoComplete="off"
             type="email"
@@ -105,6 +140,7 @@ export default function LogIn() {
           }}
         >
           <input
+            disabled={isPending}
             required
             autoComplete="off"
             type={inputsState.isPasswordEyeClosed ? "password" : "text"}
@@ -149,12 +185,20 @@ export default function LogIn() {
             </button> */}
         </label>
 
-        <button className="login__submit-button">Submit</button>
+        <button
+          className="login__submit-button"
+          type="submit"
+          disabled={isPending}
+        >
+          Submit
+        </button>
 
         <div className="login__bottom-text">
           <p>Don't Have Account ?</p>
           <Link to="/SignUp">Sign Up</Link>
         </div>
+
+        {/* <p>{message}</p> */}
       </form>
     </LogInFormContainer>
   );

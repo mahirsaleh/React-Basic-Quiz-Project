@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import { LoadingDiv } from "../../StyledComponents/Loading.Styled.jsx";
 
-import ThemeContext from "../ThemeContext.jsx";
+import { useTheme } from "../Context/MyContexts.jsx";
 
 export default function Loading() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   return (
     <LoadingDiv $theme={theme}>

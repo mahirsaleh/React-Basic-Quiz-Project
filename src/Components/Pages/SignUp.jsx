@@ -1,16 +1,16 @@
-import { useContext, useLayoutEffect, useReducer } from "react";
-import { Link } from "react-router-dom";
+import { useActionState, useLayoutEffect, useReducer } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { FaEye, FaEyeSlash, FaLock, FaUserAlt } from "react-icons/fa";
 import { FiAtSign } from "react-icons/fi";
 import { TbLockCheck } from "react-icons/tb";
 
-import ThemeContext from "../ThemeContext.jsx";
-
 import {
   SignUpDiv,
   SignUpForm,
 } from "../../StyledComponents/SignUp.Styled.jsx";
+import { useAuth, useTheme } from "../Context/MyContexts.jsx";
+import NotificationAlert from "./NotificationAlert.jsx";
 
 const initialState = {
   nameInput: "",
@@ -27,13 +27,13 @@ const initialState = {
 const reducer = function (prevState, { type, data }) {
   switch (type) {
     case "nameInput":
-      return { ...prevState, nameInput: data };
+      return { ...prevState, nameInput: data.replace(/\s+/g, " ") };
     case "emailInput":
-      return { ...prevState, emailInput: data };
+      return { ...prevState, emailInput: data.replace(/\s+/g, "") };
     case "passwordInput":
-      return { ...prevState, passwordInput: data };
+      return { ...prevState, passwordInput: data.replace(/\s+/g, " ") };
     case "confirmPasswordInput":
-      return { ...prevState, confirmPasswordInput: data };
+      return { ...prevState, confirmPasswordInput: data.replace(/\s+/g, " ") };
     case "termsCheckbox":
       return { ...prevState, termsCheckbox: data };
     case "isPasswordButtonShow":
@@ -44,13 +44,66 @@ const reducer = function (prevState, { type, data }) {
       return { ...prevState, isConfirmPasswordButtonShow: data };
     case "isConfirmPasswordEyeClosed":
       return { ...prevState, isConfirmPasswordEyeClosed: data };
+
+    case "clear":
+      return {
+        nameInput: "",
+        emailInput: "",
+        passwordInput: "",
+        confirmPasswordInput: "",
+        termsCheckbox: false,
+        isPasswordButtonShow: false,
+        isPasswordEyeClosed: true,
+        isConfirmPasswordButtonShow: false,
+        isConfirmPasswordEyeClosed: true,
+      };
   }
 };
 
 export default function SignUp() {
   const [reducerState, dispatch] = useReducer(reducer, initialState);
 
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
+  const { signup } = useAuth();
+  const navigate = useNavigate();
+
+  const actionFunction = async function (prevFormState, formData) {
+    const userData = {
+      userName: formData.get("name-input").trim(),
+      userEmail: formData.get("email-input"),
+      userPassword: formData.get("password-input").trim(),
+      userConformPassword: formData.get("confirm-password-input").trim(),
+    };
+
+    if (userData.userPassword !== userData.userConformPassword) {
+      return "password and confirm password does not match";
+    }
+
+    if (userData.userName.length > 6) {
+      return "Name can contain maximum 6 words";
+    }
+
+    try {
+      const signUpData = await signup(
+        userData.userName,
+        userData.userEmail,
+        userData.userPassword,
+      );
+
+      if (signUpData) {
+        return signUpData.code.replace("auth/", "");
+      }
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [formData, formAction, isPending] = useActionState(
+    actionFunction,
+    null,
+  );
 
   // Page Title useLayoutEffect ;
   useLayoutEffect(() => {
@@ -59,9 +112,13 @@ export default function SignUp() {
 
   return (
     <SignUpDiv>
+      <NotificationAlert parentPageName="Sign Up" isPending={isPending}>
+        {formData}
+      </NotificationAlert>
+
       <SignUpForm
         $theme={theme}
-        action=""
+        action={formAction}
         id="sign-up-form"
         name="sign-up-form"
       >
@@ -72,6 +129,7 @@ export default function SignUp() {
           htmlFor="name-label__name-input"
         >
           <input
+            disabled={isPending}
             required
             autoComplete="off"
             type="text"
@@ -94,6 +152,7 @@ export default function SignUp() {
           htmlFor="email-label__email-input"
         >
           <input
+            disabled={isPending}
             required
             autoComplete="off"
             type="email"
@@ -130,6 +189,7 @@ export default function SignUp() {
           }}
         >
           <input
+            disabled={isPending}
             required
             autoComplete="off"
             type={reducerState.isPasswordEyeClosed ? "password" : "text"}
@@ -181,6 +241,7 @@ export default function SignUp() {
           }}
         >
           <input
+            disabled={isPending}
             required
             autoComplete="off"
             type={reducerState.isConfirmPasswordEyeClosed ? "password" : "text"}
@@ -219,6 +280,7 @@ export default function SignUp() {
 
         <label className="input-section__terms-checkbox-lable">
           <input
+            disabled={isPending}
             type="checkbox"
             name="input-checkbox"
             id="checkbox-input"
@@ -240,6 +302,7 @@ export default function SignUp() {
           type="submit"
           id="sign-up-form__button"
           name="sign-up-form__button"
+          disabled={isPending}
 
           // onClick={ singUpFormSubmit }
         >

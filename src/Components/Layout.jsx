@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
+// import { GlobalStyled } from "../StyledComponents/Global.Styled.jsx";
 import { StyledLayout } from "../StyledComponents/StyledLayout.Styled.jsx";
+// import { useTheme } from "./Context/MyContexts.jsx";
 import NavBar from "./NavComponents/NavBar.jsx";
 import ScrollTopButton from "./ScrollTopButton.jsx";
 import ScrollTopPage from "./ScrollTopPage.jsx";
@@ -15,33 +17,39 @@ import Videos from "./Pages/Video.jsx/Videos.jsx";
 // Pages End's ;
 
 export default function Layout() {
+  // const { theme } = useTheme();
+
   return (
-    <StyledLayout>
-      <header>
-        <NavBar />
-      </header>
+    <>
+      {/* <GlobalStyled $theme={theme} /> */}
 
-      <main>
-        <ScrollTopButton />
-        <ScrollTopPage />
+      <StyledLayout>
+        <header>
+          <NavBar />
+        </header>
 
-        <Routes>
-          <Route path="/" element={<Videos />} />
-          <Route path="SignUp" element={<SignUp />} />
-          <Route path="LogIn" element={<LogIn />} />
+        <main>
+          <ScrollTopButton />
+          <ScrollTopPage />
 
-          <Route path="/*" element={<PageNotFound />} />
+          <Routes>
+            <Route path="/" element={<Videos />} />
+            <Route path="SignUp" element={<SignUp />} />
+            <Route path="LogIn" element={<LogIn />} />
 
-          <Route path="Quiz" element={<Quiz />} />
-          <Route path="Result" element={<Result />} />
-        </Routes>
+            <Route path="/*" element={<PageNotFound />} />
 
-        {/* <Videos />
+            <Route path="Quiz" element={<Quiz />} />
+            <Route path="Result" element={<Result />} />
+          </Routes>
+
+          {/* <Videos />
         <SignUp />
         <LogIn />
         <Quiz />
         <Result /> */}
-      </main>
-    </StyledLayout>
+        </main>
+      </StyledLayout>
+    </>
   );
 }
