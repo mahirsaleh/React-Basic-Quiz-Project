@@ -61,7 +61,7 @@ export default function AuthProvider({ children }) {
     const auth = getAuth();
     try {
       await signOut(auth);
-      console.log("logout");
+      // console.log("logout");
       return "OK";
     } catch (error) {
       console.log("Log Out Error", error.code);
