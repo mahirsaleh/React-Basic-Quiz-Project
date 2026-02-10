@@ -4,6 +4,7 @@ import "../Styles/scrollTopButton.css";
 import FloatingButton from "./FloatingButton.jsx";
 
 export default function ScrollTopButton() {
+
   const scrollTop = function () {
     scrollTo({
       top: 0,

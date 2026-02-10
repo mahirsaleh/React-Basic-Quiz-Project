@@ -34,7 +34,7 @@ const reducer = function (prevState, { type, data }) {
 export default function LogIn() {
   const [inputsState, dispatcher] = useReducer(reducer, initialState);
 
-  const { login } = useAuth();
+  const { login, setIsUserNameError } = useAuth();
   const navigate = useNavigate();
 
   const actionFunction = async function (prevFormState, formData) {
@@ -48,9 +48,11 @@ export default function LogIn() {
       const logInData = await login(userData.userEmail, userData.userPassword);
 
       if (logInData.user.displayName !== userData.userName) {
+        setIsUserNameError(() => true);
         return "name does not match";
       }
-      navigate("/");
+      setIsUserNameError(() => false);
+      navigate("/", { replace: true });
       return "";
     } catch (error) {
       return error.code
@@ -60,11 +62,15 @@ export default function LogIn() {
   };
 
   const [message, formAction, isPending] = useActionState(actionFunction, null);
-
   // Page Title useLayoutEffect ;
   useLayoutEffect(() => {
     document.title = "Quiz Project | LogIn";
   }, []);
+
+  // if (currentUser?.displayName && !isUserNameError) {
+  //   console.log(message);
+  //   return <Navigate to="/" replace={true} />;
+  // }
 
   return (
     <LogInFormContainer>

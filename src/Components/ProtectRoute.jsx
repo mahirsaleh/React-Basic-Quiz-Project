@@ -4,24 +4,34 @@ import { useAuth } from "./Context/MyContexts.jsx";
 import PageNotFound from "./Pages/PageNotFound.jsx";
 
 export default function ProtectRoute() {
-  const { currentUser } = useAuth();
-  const { "*": param } = useParams();
+  const { currentUser, isUserNameError } = useAuth();
+  const { "*": protect } = useParams();
 
-  // return currentUser?.displayName ? <Outlet /> : <Navigate to='/LogIn' />
-
-  if (param === "Quiz" || param === "Result") {
-    return currentUser?.displayName ? (
-      <Outlet />
-    ) : (
-      <Navigate to="/LogIn" replace={true} />
-    );
-  } else if (param === "LogIn" || param === "SignUp") {
-    return !currentUser?.displayName ? (
-      <Outlet />
-    ) : (
-      <Navigate to="/" replace={true} />
-    );
-  } else {
-    return <PageNotFound />;
+  if (protect === "LogIn") {
+    if (isUserNameError) {
+      return <Outlet />;
+    }
+    return !currentUser?.displayName ? <Outlet /> : <Navigate to="/" />;
+  } else if (protect === "SignUp") {
+    return !currentUser?.displayName ? <Outlet /> : <Navigate to="/" />;
+  } else if (protect.includes("Quiz", 0) || protect.includes("Result", 0)) {
+    return currentUser?.displayName ? <Outlet /> : <Navigate to="/LogIn" />;
   }
+  return currentUser?.displayName ? <Outlet /> : <PageNotFound />;
+
+  // if (param === "Quiz" || param === "Result") {
+  //   return currentUser?.displayName ? (
+  //     <Outlet />
+  //   ) : (
+  //     <Navigate to="/LogIn" replace={true} />
+  //   );
+  // } else if (param === "LogIn" || param === "SignUp") {
+  //   return !currentUser?.displayName ? (
+  //     <Outlet />
+  //   ) : (
+  //     <Navigate to="/" replace={true} />
+  //   );
+  // } else {
+  //   return <PageNotFound />;
+  // }
 }

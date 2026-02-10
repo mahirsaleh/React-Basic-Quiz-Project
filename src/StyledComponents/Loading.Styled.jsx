@@ -13,8 +13,12 @@ const rotateLoading = keyframes`
 export const LoadingDiv = styled.div`
   display: grid;
   place-items: center;
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
   top: 250px;
+  /* background-color: red; */
+
 
   & > div {
     height: 100px;

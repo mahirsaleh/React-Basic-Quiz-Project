@@ -222,15 +222,17 @@ export const AnswerDiv = Styled.div`
   padding: 15px ;
   font-size: 25px ;
 
-  & > p.answer-div__heading-text {
+  & p.answer-div__heading-text {
     padding-bottom: 20px ;
+    font-size: 30px ;
 
     & > svg {
       margin-right: 10px ;
+      font-size: 20px ;
     }
   }
 
-  & > div.answer-div__answer-section {
+  & div.answer-div__answer-section {
     display: grid ;
     grid-template-columns: repeat(2, 1fr) ;
     gap: 20px ;
@@ -240,7 +242,7 @@ export const AnswerDiv = Styled.div`
       margin-bottom: 10px ;
     }
 
-    & > div.answer-section__user-answers {
+    & div.answer-section__user-answers {
       display: flex ;
       flex-direction: column ;
       gap: 20px ;
@@ -259,7 +261,7 @@ export const AnswerDiv = Styled.div`
       }
     }
 
-    & > div.answer-section__real-answers {
+    & div.answer-section__real-answers {
       display: flex ;
       flex-direction: column ;
       gap: 20px ;
@@ -319,8 +321,8 @@ export const AnswerDiv = Styled.div`
         margin-bottom: 0px ;
       }
 
-      & > div.answer-section__user-answers,
-      & > div.answer-section__real-answers {
+      & div.answer-section__user-answers,
+      & div.answer-section__real-answers {
         gap: 15px ;
 
         & p {
@@ -338,8 +340,8 @@ export const AnswerDiv = Styled.div`
       grid-template-columns: 1fr ;
       gap: 25px ;
 
-      & > div.answer-section__user-answers,
-      & > div.answer-section__real-answers {
+      & div.answer-section__user-answers,
+      & div.answer-section__real-answers {
         gap: 20px ;
 
         & h3 {

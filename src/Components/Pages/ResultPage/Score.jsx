@@ -2,7 +2,7 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 
 import { ScoreDiv } from "../../../StyledComponents/Result.styled.jsx";
 
-export default function Score() {
+export default function Score({ questions, correctAnswers }) {
   const [scoreState, setScoreState] = useState(0);
 
   const circleRef = useRef();
@@ -11,18 +11,22 @@ export default function Score() {
   const circleAnimation = useEffectEvent(function (targetCircleValue, timer) {
     let currentCircleValue = 0;
     let circleIntervalID = null;
-    
+
     circleIntervalID = setInterval(() => {
+      if (!targetCircleValue) {
+        clearInterval(circleIntervalID)
+        return ;
+      }
       if (
-        circleRef.current.style.getPropertyValue("--percentage") ===
-          `${targetCircleValue}%`
+        circleRef.current?.style.getPropertyValue("--percentage") ===
+        `${targetCircleValue}%`
       ) {
         clearInterval(circleIntervalID);
         return;
       }
-      circleRef.current.style.setProperty(
+      circleRef.current?.style.setProperty(
         "--percentage",
-        `${++currentCircleValue}%`
+        `${++currentCircleValue}%`,
       );
     }, timer);
 
@@ -30,36 +34,46 @@ export default function Score() {
   });
 
   const scoreAnimation = useEffectEvent(function (targetScoreValue, timer) {
-    let scoreInterval = null ;
-    let currentScore = 0 ;
+    let scoreInterval = null;
+    let currentScore = 0;
 
     scoreInterval = setInterval(() => {
       if (currentScore === targetScoreValue) {
-        clearInterval(scoreInterval) ;
-        return ;
+        clearInterval(scoreInterval);
+        return;
       }
-      setScoreState(++currentScore) ;
-    }, timer) ;
+      setScoreState(++currentScore);
+    }, timer);
 
-    return scoreInterval ;
-  }) ;
+    return scoreInterval;
+  });
 
   useEffect(() => {
-    const circleInervalID = circleAnimation(50, (500 / 50));
-    const scoreIntervalID = scoreAnimation(5, (500 / 5)) ;
+    const circleInervalID = circleAnimation(
+      (correctAnswers * 100) / questions,
+      correctAnswers * 2,
+    );
+    const scoreIntervalID = scoreAnimation(
+      correctAnswers,
+      (correctAnswers * 100) / correctAnswers * 2,
+    );
 
     return () => {
       clearInterval(circleInervalID);
       clearInterval(scoreIntervalID);
-    }
-  }, []);
+    };
+  }, [correctAnswers, questions]);
 
   return (
     <ScoreDiv className="score-div">
-      <p className="score-div__score-text">Your Score is 5 out of 10</p>
+      <p className="score-div__score-text">
+        Your Score is {correctAnswers} out of {questions}
+      </p>
 
       <div className="score-div__score-circle" ref={circleRef}>
-        <span className="score-circle__score">{scoreState} / 10</span>
+        <span className="score-circle__score">
+          {scoreState} / {questions}
+        </span>
       </div>
     </ScoreDiv>
   );

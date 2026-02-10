@@ -2,6 +2,7 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 
 export default function FloatingButton({ children, ...props }) {
   const [isShow, setIsShow] = useState(false);
+  // const [ isHover, setIsHover ] = useState(false) ;
   const timerRef = useRef(null);
 
   const scrollEventHandler = useEffectEvent(function () {
@@ -23,13 +24,29 @@ export default function FloatingButton({ children, ...props }) {
   useEffect(() => {
     window.addEventListener("scroll", scrollEventHandler, { passive: true });
 
-    return () => window.removeEventListener("scroll", scrollEventHandler);
+    return () => {
+      window.removeEventListener("scroll", scrollEventHandler);
+
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
   }, []);
 
   return (
     <button
       type="button"
       disabled={!isShow}
+      onMouseEnter={() => {
+        // setIsHover(true) ;
+        clearTimeout(timerRef.current);
+      }}
+      onMouseLeave={() => {
+        // setIsHover(false)
+        timerRef.current = setTimeout(() => {
+          setIsShow(false);
+        }, 2000);
+      }}
       style={
         isShow
           ? {

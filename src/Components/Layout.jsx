@@ -8,8 +8,8 @@ import ScrollTopButton from "./ScrollTopButton.jsx";
 import ScrollTopPage from "./ScrollTopPage.jsx";
 
 // Pages Start's ;
-// import PageNotFound from "./Pages/PageNotFound.jsx";
 import LogIn from "./Pages/LogIn.jsx";
+import PageNotFound from "./Pages/PageNotFound.jsx";
 import Quiz from "./Pages/QuizPage/Quiz.jsx";
 import Result from "./Pages/ResultPage/Result.jsx";
 import SignUp from "./Pages/SignUp.jsx";
@@ -39,17 +39,11 @@ export default function Layout() {
             <Route path="/*" element={<ProtectRoute />}>
               <Route path="SignUp" element={<SignUp />} />
               <Route path="LogIn" element={<LogIn />} />
-              <Route path="Quiz" element={<Quiz />} />
-              <Route path="Result" element={<Result />} />
-              {/* <Route path="*" element={<PageNotFound />} /> */}
+              <Route path="Quiz/:videoID/:page" element={<Quiz />} />
+              <Route path="Result/:videoID" element={<Result />} />
+              <Route path="*" element={<PageNotFound />} />
             </Route>
           </Routes>
-
-          {/* <Videos />
-        <SignUp />
-        <LogIn />
-        <Quiz />
-        <Result /> */}
         </main>
       </StyledLayout>
     </>

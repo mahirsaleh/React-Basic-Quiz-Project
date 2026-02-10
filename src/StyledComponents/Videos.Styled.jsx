@@ -4,6 +4,7 @@ export const VideoCard = Styled.div`
   display: flex ;
   flex-direction: column ;
   gap: 15px ;
+  cursor: pointer ;
 
   background: var(--background-color) ;
   padding: 10px ;
@@ -27,7 +28,8 @@ export const VideoCard = Styled.div`
     flex-direction: row ;
     justify-content: space-between ;
 
-    margin: 15px 0px ;
+    margin-top: 20px ;
+    margin-bottom: 5px ;
 
     & p {
       font-size: 15px ;

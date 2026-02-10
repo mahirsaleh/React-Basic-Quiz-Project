@@ -4,6 +4,10 @@ const FooterDiv = styled.div`
   position: relative;
   margin-top: 50px ;
   padding: 100px 0px ;
+  /* position: absolute;
+  bottom: 0 ;
+  left: 0 ;
+  right: 0 ; */
 
   &::before {
     content: '';

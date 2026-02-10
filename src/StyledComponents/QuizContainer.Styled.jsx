@@ -191,7 +191,7 @@ export const ProgressContainer = styled.div`
       content: "";
       position: absolute;
       inset: 0;
-      right: 50%;
+      right: ${({ $progressBar }) => `${100 - $progressBar}%`};
 
       background-color: hsl(9.130434782608695, 100%, 30%);
     }
@@ -199,7 +199,7 @@ export const ProgressContainer = styled.div`
     &::after {
       content: "";
       position: absolute;
-      right: 49%;
+      right: ${({ $progressBar }) => `${100 - ($progressBar + 1)}%`};
       top: calc(0% - 7.5px);
 
       padding: 10px;
@@ -211,7 +211,7 @@ export const ProgressContainer = styled.div`
     & > span {
       position: absolute;
       bottom: 500%;
-      right: calc(49% - 17px);
+      right: ${({ $progressBar }) => `calc(${100 - $progressBar}% - 17px)`};
 
       background-color: var(--progressContainer__buttons-background-color);
       color: var(--font-color-opposite);
@@ -294,13 +294,15 @@ export const CircularProgressContainer = styled.div`
     place-items: center;
     margin-top: 35px;
     position: relative;
-    
+
     & > .inner-circle {
       display: grid;
       place-items: center;
       position: relative;
 
-      box-shadow: 2px 3px 15px grey, -1px -1px 5px grey;
+      box-shadow:
+        2px 3px 15px grey,
+        -1px -1px 5px grey;
       border-radius: 9999px;
       transform: rotateZ(270deg);
 
@@ -317,8 +319,8 @@ export const CircularProgressContainer = styled.div`
 
         stroke: hsl(9.130434782608695, 100%, 30%);
         stroke-width: 14px;
-        stroke-dasharray: 722.568;
-        stroke-dashoffset: calc(722.568 * 0.5);
+        stroke-dasharray: 741.4176;
+        stroke-dashoffset: ${({ $progress }) => `calc(741.4176 * (1 - ${$progress / 100}))`};
       }
 
       &::before {
@@ -328,45 +330,33 @@ export const CircularProgressContainer = styled.div`
         width: 222px;
         background-color: transparent;
         border-radius: 999999px;
-        box-shadow: inset 3px 3px 8px grey, inset -2px -2px 6px grey;
+        box-shadow:
+          inset 3px 3px 8px grey,
+          inset -2px -2px 6px grey;
       }
-
-      &::after {
-        content: "";
-        position: absolute;
-        left: 0 ;
-        top: 50% ;
-        padding: 7px;
-        background-color: hsl(9.130434782608695, 100%, 35%);
-        border-radius: 9999px;
-
-        box-shadow: 0 0 25px 10px hsl(9.130434782608695, 100%, 35%);
-      }
-
     }
     & span {
       position: absolute;
       font-size: 35px;
-      left: 45% ;
+      left: 45%;
     }
   }
 `;
 
-
 export const QuizVidoeIframe = styled.div`
   display: grid;
   place-items: center;
-  margin-top: 20px ;
+  margin-top: 20px;
 
   & > iframe {
-    border: none ;
+    border: none;
     height: 350px;
     width: 600px;
-    border: 3px solid grey ;
+    border: 3px solid grey;
 
     @media screen and (max-width: 650px) {
       width: 100%;
       /* height: 300px; */
     }
   }
-` ;
+`;

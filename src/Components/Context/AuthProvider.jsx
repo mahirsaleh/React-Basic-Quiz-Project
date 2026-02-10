@@ -15,6 +15,7 @@ import Loading from "../Pages/Loading.jsx";
 
 export default function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isUserNameError, setIsUserNameError] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -61,8 +62,8 @@ export default function AuthProvider({ children }) {
     const auth = getAuth();
     try {
       await signOut(auth);
-      // console.log("logout");
-      return "OK";
+      setIsUserNameError(() => false);
+      return;
     } catch (error) {
       console.log("Log Out Error", error.code);
       console.log("Log Out Error", error.message);
@@ -76,6 +77,8 @@ export default function AuthProvider({ children }) {
     login,
     logOut,
     currentUser,
+    isUserNameError,
+    setIsUserNameError,
   };
 
   // return <AuthContext value={value}>{children}</AuthContext>;

@@ -9,9 +9,9 @@ import { NavAccountDiv } from "../../StyledComponents/Nav.styled.jsx";
 import { useAuth } from "../Context/MyContexts.jsx";
 
 export default function NavAccount() {
-  const { currentUser, logOut } = useAuth();
+  const { currentUser, logOut, isUserNameError } = useAuth();
 
-  if (currentUser?.displayName) {
+  if (currentUser?.displayName && !isUserNameError) {
     return (
       <NavAccountDiv>
         <p>
