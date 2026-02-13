@@ -13,47 +13,53 @@ export default function Result() {
   const { state: userInput } = useLocation();
   const { result, loading, error } = useResult(videoID);
   const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [userSelectCorrectAnswersList, setUserSelectCorrectAnswersList] =
+    useState({});
   const { QuizScoreDispatch } = useQuizScore();
 
   const totalQuestions = result?.length;
 
   const sideEffectCountCorrectAnswers = useEffectEvent(() => {
     let answer = 0;
+    const correctAnswers = {};
+
     result?.forEach((value) => {
       const title = value.title;
+      correctAnswers[title] = [];
 
-      if (userInput[title]) {
-        let sameQuestionMultipleAnswerCount = 0;
-        let userCorrectAnswerCount = 0;
-        let doesUserSelectWrongAnswer = false;
+      let sameQuestionMultipleAnswerCount = 0;
+      let userCorrectAnswerCount = 0;
+      let doesUserSelectWrongAnswer = false;
+      // onlyCorrectAnswersList[]
 
-        value.options.forEach((option) => {
-          if (option.correct) {
-            sameQuestionMultipleAnswerCount++;
+      value.options.forEach((option) => {
+        if (option.correct) {
+          sameQuestionMultipleAnswerCount++;
 
-            if (userInput[title][option.title]) {
-              ++userCorrectAnswerCount;
-            }
-          } else if (userInput[title][option.title]) {
-            doesUserSelectWrongAnswer = true;
+          if (userInput[title][option.title]) {
+            ++userCorrectAnswerCount;
+            correctAnswers[title].unshift(option.title);
           }
-        });
-        if (doesUserSelectWrongAnswer) {
-          return;
+        } else if (userInput[title][option.title]) {
+          doesUserSelectWrongAnswer = true;
         }
-        if (sameQuestionMultipleAnswerCount === userCorrectAnswerCount) {
-          ++answer;
-        }
-        // console.log(
-        //   title,
-        //   " ",
-        //   sameQuestionMultipleAnswerCount,
-        //   " ",
-        //   userCorrectAnswerCount,
-        // );
+      });
+      if (doesUserSelectWrongAnswer) {
+        return;
       }
+      if (sameQuestionMultipleAnswerCount === userCorrectAnswerCount) {
+        ++answer;
+      }
+      // console.log(
+      //   title,
+      //   " ",
+      //   sameQuestionMultipleAnswerCount,
+      //   " ",
+      //   userCorrectAnswerCount,
+      // );
     });
     setCorrectAnswers((prevAnswer) => answer || prevAnswer);
+    setUserSelectCorrectAnswersList(correctAnswers);
     QuizScoreDispatch({ key: videoID, value: answer });
   });
 
@@ -139,7 +145,11 @@ export default function Result() {
       {/* Analysis Header Section End's */}
 
       {/* Answer Section Start's */}
-      <Answers result={result} userInput={userInput} />
+      <Answers
+        onlyCorrectAnswers={userSelectCorrectAnswersList}
+        result={result}
+        userInput={userInput}
+      />
       {/* Answer Section End's */}
     </ResultDiv>
   );

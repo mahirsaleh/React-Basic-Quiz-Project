@@ -52,8 +52,11 @@ export default function FloatingButton({ children, ...props }) {
           ? {
               opacity: 1,
               cursor: "pointer",
+              zIndex: "9999999999",
             }
-          : {}
+          : {
+              zIndex: "-1",
+            }
       }
       {...props}
     >

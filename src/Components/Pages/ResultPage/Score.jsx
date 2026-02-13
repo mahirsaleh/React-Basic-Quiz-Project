@@ -14,8 +14,8 @@ export default function Score({ questions, correctAnswers }) {
 
     circleIntervalID = setInterval(() => {
       if (!targetCircleValue) {
-        clearInterval(circleIntervalID)
-        return ;
+        clearInterval(circleIntervalID);
+        return;
       }
       if (
         circleRef.current?.style.getPropertyValue("--percentage") ===
@@ -51,11 +51,11 @@ export default function Score({ questions, correctAnswers }) {
   useEffect(() => {
     const circleInervalID = circleAnimation(
       (correctAnswers * 100) / questions,
-      correctAnswers * 2,
+      correctAnswers * 5,
     );
     const scoreIntervalID = scoreAnimation(
       correctAnswers,
-      (correctAnswers * 100) / correctAnswers * 2,
+      ((correctAnswers * 100) / questions) * 5,
     );
 
     return () => {

@@ -2,7 +2,7 @@
   position: fixed;
   bottom: 4%;
   right: 4%;
-  z-index: 999999999;
+  /* z-index: 999999999; */
 
   display: grid;
   place-items: center;
@@ -10,14 +10,16 @@
   /* cursor: pointer ; */
   border-radius: 99999px;
   border: none;
-  box-shadow: 0 0 0 3px white, 0 0 0 6px var(--scroll-button-background-color);
+  box-shadow:
+    0 0 0 3px white,
+    0 0 0 6px var(--scroll-button-background-color);
 
   background-color: var(--scroll-button-background-color);
   padding: 5px;
   font-size: 25px;
 
   opacity: 0;
-  transition: opacity 0.2s linear;
+  transition: 0.2s linear;
 }
 
 .showing {
@@ -40,14 +42,15 @@
     font-size: 20px;
     padding: 3px;
   }
-  
 }
 
 @media screen and (max-height: 500px) {
   .scroll-top-button {
     font-size: 15px;
     padding: 2px;
-    box-shadow: 0 0 0 2px white, 0 0 0 4px lightcoral;
+    box-shadow:
+      0 0 0 2px white,
+      0 0 0 4px lightcoral;
   }
 
   .scroll-top-button > svg {
