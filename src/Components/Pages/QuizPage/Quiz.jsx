@@ -12,6 +12,7 @@ import ProgressSection from "./ProgressSection.jsx";
 export default function Quiz() {
   const { videoID, page } = useParams();
   const { quizList, loading, isError } = useQuiz(videoID);
+
   const [quizListIndex, setQuizListIndex] = useState(Number(page));
 
   // option state's start's ;
