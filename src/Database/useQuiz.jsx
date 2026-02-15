@@ -10,7 +10,6 @@ export default function useQuiz(videoID) {
 
   useEffect(() => {
     let isMounted = true;
-    console.log('Mahir')
     
     async function fetchQuizData() {
       const database = getDatabase();
@@ -19,8 +18,9 @@ export default function useQuiz(videoID) {
       
       try {
         const snapshot = await get(quizQuery);
-
+        
         if (snapshot.exists() && isMounted) {
+          console.log('Saleh')
           const fetchData = snapshot.val();
 
           setState((prevState) => ({
