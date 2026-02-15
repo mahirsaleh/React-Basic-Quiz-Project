@@ -206,15 +206,16 @@ export const SignUpForm = styled.form`
       font-size: 16px;
     }
   }
-  @media screen and (max-width: 419px) {
+  @media screen and (max-width: 518px) {
     width: 96%;
     border-radius: 10px;
-    padding: 40px 5px;
+    /* padding: 40px 0px; */
     gap: 25px;
 
     & input,
     & label {
       font-size: 18px;
+      width: 100%;
     }
 
     & > div.heading {
@@ -226,7 +227,12 @@ export const SignUpForm = styled.form`
       font-size: 18px;
     }
   }
-  @media screen and (max-width: 329px) {
+  @media screen and (max-width: 389px) {
+
+    & div.heading {
+      font-size: 22px ;
+    }
+
     & .sign-up-div__lower-text,
     & .terms-checkbox-label__text {
       font-size: 14px;
@@ -234,6 +240,6 @@ export const SignUpForm = styled.form`
   }
 
   @media screen and (max-height: 739px) {
-    padding: 20px 60px ;
+    padding: 20px  ;
   }
 `;
