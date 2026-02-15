@@ -10,6 +10,7 @@ export default function useQuiz(videoID) {
 
   useEffect(() => {
     let isMounted = true;
+    console.log('Mahir')
     
     async function fetchQuizData() {
       const database = getDatabase();
