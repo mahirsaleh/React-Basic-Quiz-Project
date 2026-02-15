@@ -108,8 +108,8 @@ export default function Quiz() {
     });
   }, [quizList]);
 
-  if (loading) {
-    console.log('loading')
+  if (!quizList.length) {
+
     return <Loading />;
   } else if (isError) {
     return (
