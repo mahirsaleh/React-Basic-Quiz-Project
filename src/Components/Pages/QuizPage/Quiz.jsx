@@ -108,30 +108,31 @@ export default function Quiz() {
     });
   }, [quizList]);
 
-  // if (loading) {
-  //   return <Loading />;
-  // } else if (isError) {
-  //   return (
-  //     <h2
-  //       style={{
-  //         fontSize: "50px",
-  //         paddingTop: "50px",
-  //         textAlign: "center",
-  //       }}
-  //     >
-  //       Error !
-  //     </h2>
-  //   );
-  // } else if (
-  //   (!quizList?.length && !loading) ||
-  //   quizList?.length < quizListIndex + 1 ||
-  //   quizListIndex < 0 ||
-  //   isNaN(quizListIndex)
-  // ) {
-  //   return <PageNotFound />;
-  // } else if (!isOptionStateUpdated) {
-  //   return <></>;
-  // }
+  if (loading) {
+    console.log('loading')
+    return <Loading />;
+  } else if (isError) {
+    return (
+      <h2
+        style={{
+          fontSize: "50px",
+          paddingTop: "50px",
+          textAlign: "center",
+        }}
+      >
+        Error !
+      </h2>
+    );
+  } else if (
+    (!quizList?.length && !loading) ||
+    quizList?.length < quizListIndex + 1 ||
+    quizListIndex < 0 ||
+    isNaN(quizListIndex)
+  ) {
+    return <PageNotFound />;
+  } else if (!isOptionStateUpdated) {
+    return <></>;
+  }
 
   return (
     <>
