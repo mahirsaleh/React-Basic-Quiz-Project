@@ -21,7 +21,6 @@ export default function useQuiz(videoID) {
         
         if (snapshot.exists()) {
           const fetchData = snapshot.val();
-          console.log('Saleh')
 
           setState((prevState) => ({
             ...prevState,
@@ -29,7 +28,6 @@ export default function useQuiz(videoID) {
             setLoading: false,
           }));
         } else {
-          console.log('else')
           setState((prevState) => ({
             ...prevState,
             loading: false,

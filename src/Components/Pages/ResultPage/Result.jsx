@@ -3,7 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 
 import useResult from "../../../Database/useResult.jsx";
 import { ResultDiv } from "../../../StyledComponents/Result.styled.jsx";
-import { useQuizScore } from "../../Context/MyContexts.jsx";
+import { useAuth, useQuizScore } from "../../Context/MyContexts.jsx";
 import Loading from "../Loading.jsx";
 import Answers from "./Answers.jsx";
 import Score from "./Score.jsx";
@@ -16,6 +16,9 @@ export default function Result() {
   const [userSelectCorrectAnswersList, setUserSelectCorrectAnswersList] =
     useState({});
   const { QuizScoreDispatch } = useQuizScore();
+  const {
+    currentUser: { displayName: userName },
+  } = useAuth();
 
   const totalQuestions = result?.length;
 
@@ -36,7 +39,7 @@ export default function Result() {
         if (option.correct) {
           sameQuestionMultipleAnswerCount++;
 
-          if (userInput[title][option.title]) {
+          if (userInput?.[title][option.title]) {
             ++userCorrectAnswerCount;
             correctAnswers[title].unshift(option.title);
           }
@@ -50,25 +53,22 @@ export default function Result() {
       if (sameQuestionMultipleAnswerCount === userCorrectAnswerCount) {
         ++answer;
       }
-      // console.log(
-      //   title,
-      //   " ",
-      //   sameQuestionMultipleAnswerCount,
-      //   " ",
-      //   userCorrectAnswerCount,
-      // );
     });
     setCorrectAnswers((prevAnswer) => answer || prevAnswer);
     setUserSelectCorrectAnswersList(correctAnswers);
-    QuizScoreDispatch({ key: videoID, value: answer });
+    QuizScoreDispatch({ key: videoID, value: answer, userName: userName });
   });
 
   // console.log(result);
   // console.log(userInput) ;
   // console.log(correctAnswers)
 
+  // FOR result ;
   useEffect(() => {
     sideEffectCountCorrectAnswers();
+
+    // for browser back button ;
+    window.history.pushState(null, null, "/");
   }, [result]);
 
   // Page Title useLayoutEffect ;

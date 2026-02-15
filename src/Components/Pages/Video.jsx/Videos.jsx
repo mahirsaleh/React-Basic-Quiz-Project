@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 import Footer from "../../Footer.jsx";
@@ -12,16 +12,13 @@ export default function Videos() {
   const footerRef = useRef(null);
   const { videoList, loading, scrollLoading } = useVideos(8, 1, footerRef);
 
-  useLayoutEffect(() => {
-    document.title = "Quiz Project";
-  }, []);
-
   if (!loading && !videoList) {
     return <h1>Error</h1>;
   }
 
   return (
     <>
+      <title>Quiz Project</title>
       <VideoContainer>
         {loading ? (
           <Loading />

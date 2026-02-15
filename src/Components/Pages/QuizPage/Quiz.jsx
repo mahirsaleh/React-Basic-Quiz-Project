@@ -8,10 +8,12 @@ import PageNotFound from "../PageNotFound.jsx";
 import CircularProgressSection from "./CircularProgressSection.jsx";
 import OptionSection from "./OptionSection.jsx";
 import ProgressSection from "./ProgressSection.jsx";
+import QuizVideo from "./QuizVideo.jsx";
 
 export default function Quiz() {
   const { videoID, page } = useParams();
   const { quizList, loading, isError } = useQuiz(videoID);
+  // console.log(loading)
 
   const [quizListIndex, setQuizListIndex] = useState(Number(page));
 
@@ -109,7 +111,6 @@ export default function Quiz() {
   }, [quizList]);
 
   if (!quizList.length) {
-
     return <Loading />;
   } else if (isError) {
     return (
@@ -147,7 +148,7 @@ export default function Quiz() {
           </p>
         </div>
 
-        {/* <QuizVideo videoID={videoID} /> */}
+        <QuizVideo videoID={videoID} />
 
         <OptionSection
           quizList={quizList[quizListIndex]?.options}

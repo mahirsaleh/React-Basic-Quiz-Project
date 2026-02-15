@@ -1,7 +1,10 @@
 import { useEffect, useReducer } from "react";
-import { QuizScoreContext } from "./MyContexts";
+import { QuizScoreContext, useAuth } from "./MyContexts";
 
-const reducer = function (prevState, { key, value }) {
+const reducer = function (prevState, { key, value, clearData }) {
+  if (clearData) {
+    return null;
+  }
   return {
     ...prevState,
     [key]: value,
@@ -17,6 +20,10 @@ const initialFunction = function (initialState) {
 };
 
 export default function QuizScoreProvider({ children }) {
+  const {
+    currentUser: { displayName: userName },
+  } = useAuth();
+
   const [QuizScoreData, QuizScoreDispatch] = useReducer(
     reducer,
     null,
@@ -24,12 +31,16 @@ export default function QuizScoreProvider({ children }) {
   );
 
   useEffect(() => {
+    if (!userName && sessionStorage.getItem("QuizScoreData")) {
+      sessionStorage.removeItem("QuizScoreData");
+      return;
+    }
     if (!QuizScoreData) {
       return;
     }
     sessionStorage.setItem("QuizScoreData", JSON.stringify(QuizScoreData));
     // console.log("gorib");
-  }, [QuizScoreData]);
+  }, [QuizScoreData, userName]);
 
   return (
     <QuizScoreContext

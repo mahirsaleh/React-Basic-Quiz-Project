@@ -6,23 +6,25 @@ import { MdLogout } from "react-icons/md";
 
 import { NavAccountDiv } from "../../StyledComponents/Nav.styled.jsx";
 
-import { useAuth } from "../Context/MyContexts.jsx";
+import { useAuth, useQuizScore } from "../Context/MyContexts.jsx";
 
 export default function NavAccount() {
   const { currentUser, logOut, isUserNameError } = useAuth();
+  const { QuizScoreDispatch } = useQuizScore();
 
   if (currentUser?.displayName && !isUserNameError) {
     return (
       <NavAccountDiv>
-        <p>
-          {currentUser.displayName}
-        </p>
+        <p>{currentUser.displayName}</p>
 
         <MdLogout
           style={{
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
-          onClick={ logOut }
+          onClick={() => {
+            QuizScoreDispatch({ clearData: true });
+            logOut();
+          }}
         />
       </NavAccountDiv>
     );

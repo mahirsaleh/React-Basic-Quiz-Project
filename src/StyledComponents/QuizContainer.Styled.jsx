@@ -256,14 +256,15 @@ export const ProgressContainer = styled.div`
       }
       &::after {
         padding: 7px;
-        right: 48%;
+        right: ${({ $progressBar }) => `calc(${100 - ($progressBar + 1)}% - 5px)`};
         top: calc(0% - 5px);
       }
 
       & > span {
         font-size: 16px;
         padding: 5px;
-        right: calc(48% - 13px);
+        right: ${({ $progressBar }) => `calc(${100 - $progressBar}% - 17px)`};
+
         bottom: 30px;
       }
     }
@@ -320,7 +321,8 @@ export const CircularProgressContainer = styled.div`
         stroke: hsl(9.130434782608695, 100%, 30%);
         stroke-width: 14px;
         stroke-dasharray: 741.4176;
-        stroke-dashoffset: ${({ $progress }) => `calc(741.4176 * (1 - ${$progress / 100}))`};
+        stroke-dashoffset: ${({ $progress }) =>
+          `calc(741.4176 * (1 - ${$progress / 100}))`};
       }
 
       &::before {
