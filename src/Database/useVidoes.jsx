@@ -30,9 +30,9 @@ export default function useVideos(numberOfVideos, showFrom, scrollPositionRef) {
 
       try {
         // delay ;
-        await new Promise((resolve) => {
-          setTimeout(resolve, 1000);
-        });
+        // await new Promise((resolve) => {
+        //   setTimeout(resolve, 1000);
+        // });
 
         const snapshot = await get(videosQuery);
 
