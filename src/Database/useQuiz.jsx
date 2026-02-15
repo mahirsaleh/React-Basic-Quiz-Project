@@ -9,7 +9,7 @@ export default function useQuiz(videoID) {
   });
 
   useEffect(() => {
-    let isMounted = true;
+    // let isMounted = true;
     
     async function fetchQuizData() {
       const database = getDatabase();
@@ -19,9 +19,9 @@ export default function useQuiz(videoID) {
       try {
         const snapshot = await get(quizQuery);
         
-        if (snapshot.exists() && isMounted) {
-          console.log('Saleh')
+        if (snapshot.exists()) {
           const fetchData = snapshot.val();
+          console.log('Saleh')
 
           setState((prevState) => ({
             ...prevState,
@@ -29,6 +29,7 @@ export default function useQuiz(videoID) {
             setLoading: false,
           }));
         } else {
+          console.log('else')
           setState((prevState) => ({
             ...prevState,
             loading: false,
@@ -46,9 +47,9 @@ export default function useQuiz(videoID) {
     }
     fetchQuizData();
 
-    return () => {
-      isMounted = false;
-    };
+    // return () => {
+    //   isMounted = false;
+    // };
   }, [videoID]);
 
   return state;
